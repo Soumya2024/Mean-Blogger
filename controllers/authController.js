@@ -1,9 +1,12 @@
+// auth controller
+
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
+  
   if(!email || !name || !password) {
     return res.status(400).json({ message: 'All fields are required' });
   }
