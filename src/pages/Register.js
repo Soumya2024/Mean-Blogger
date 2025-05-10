@@ -6,16 +6,24 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(form);
-    alert('Registered successfully!');
+    try {
+      await register(form);
+      alert('Registered successfully!');
+      window.location.href = '/login';
+    } catch (err) {
+      alert('Registration failed: ' + (err.response?.data?.error || err.message));
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input placeholder="Name" onChange={(e) => setForm({...form, name: e.target.value})} />
-      <input placeholder="Email" onChange={(e) => setForm({...form, email: e.target.value})} />
-      <input type="password" placeholder="Password" onChange={(e) => setForm({...form, password: e.target.value})} />
-      <button>Register</button>
-    </form>
+    <div style={{ padding: '2rem' }}>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+        <input placeholder="Email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+        <input placeholder="Password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+        <button type="submit">Register</button>
+      </form>
+    </div>
   );
 }
